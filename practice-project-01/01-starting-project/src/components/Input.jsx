@@ -2,7 +2,7 @@ export default function Input({ label }) {
     return (
         <>
             <label>{label}</label>
-            <input></input>
+            <input type="text" value="" />
         </>
     );
 }
