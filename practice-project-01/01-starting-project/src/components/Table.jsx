@@ -11,7 +11,15 @@ export default function Table({ data }) {
                 </tr>
             </thead>
             <tbody>
-                
+                {data.map((item) => (
+                    <tr key={item.year}>
+                        <td>{item.year}</td>
+                        <td>{formatter.format(item.valueEndOfYear)}</td>
+                        <td>{formatter.format(item.interest)}</td>
+                        <td>{formatter.format(item.valueEndOfYear - item.annualInvestment)}</td>
+                        <td>{formatter.format(item.valueEndOfYear - item.interest)}</td>
+                    </tr>
+                ))}
             </tbody>
         </table>
     );

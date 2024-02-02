@@ -1,43 +1,59 @@
 import Header from "./components/header/header";
 import UserInput from "./components/UserInput";
 import Table from "./components/Table";
-import { calculateInvestmentResults } from "./util/investment.js";
+import { calculateInvestmentResults, formatter } from "./util/investment.js";
 import { useState } from "react";
-
-const INVESTMENTS = {
-  initialInvestment: 0,
-  annualInvestment: 0,
-  expectedReturn: 0,
-  duration: 0
-};
-
-function getTableInfo() {
-  const outputs = calculateInvestmentResults(
-    INVESTMENTS.initialInvestment,
-    INVESTMENTS.annualInvestment,
-    INVESTMENTS.expectedReturn,
-    INVESTMENTS.duration
-  )
-
-
-}
 
 
 function App() {
-  const [ values, setValues ] = useState( INVESTMENTS );
+  const [initialInvestment, setInitialInvestment] = useState('');
+  const [annualInvestment, setAnnualInvestment] = useState('');
+  const [expectedReturn, setExpectedReturn] = useState('');
+  const [duration, setDuration] = useState('');
+  const [investmentResults, setInvestmentResults] = useState([]);
 
-  function setInvestments() {
-    setValues(
-      
-    )
+  const handleChange = (value, inputType) => {
+    switch (inputType) {
+      case 'initialInvestment':
+        setInitialInvestment(value);
+        break;
+      case 'annualInvestment':
+        setAnnualInvestment(value);
+        break;
+      case 'expectedReturn':
+        setExpectedReturn(value);
+        break;
+      case 'duration':
+        setDuration(value);
+        break;
+      default:
+        break;
+    }
+  };
+
+  if (initialInvestment && annualInvestment && expectedReturn && duration) {
+    const results = calculateInvestmentResults({
+      initialInvestment,
+      annualInvestment,
+      expectedReturn,
+      duration,
+    });
+    setInvestmentResults(results);
   }
+  
 
   return (
     <>
       <Header />
       <main>
-        <UserInput />
-        <Table />
+        <UserInput 
+          initialInvestment={initialInvestment}
+          annualInvestment={annualInvestment}
+          expectedReturn={expectedReturn}
+          duration={duration}
+          onInputChange={handleChange}
+        />
+        <Table data={investmentResults}/>
       </main>
     </>
     
