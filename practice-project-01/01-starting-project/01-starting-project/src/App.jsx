@@ -10,15 +10,17 @@ function App() {
     annualInvestment: 1200,
     expectedReturn: 6,
     duration: 10
-}); 
+  }); 
 
-function handleChange(inputIdentifier, newValue) {
+  function handleChange(inputIdentifier, newValue) {
   setUserInput(prevUserInput => {
-      const newInput = {...prevUserInput};
-      newInput[inputIdentifier] = +newValue;
-      return newInput;
-  });
-}
+        const newInput = {...prevUserInput};
+        newInput[inputIdentifier] = +newValue;
+        return newInput;
+    });
+  }
+
+  const inputIsValid = userInput.duration >= 1;
 
   return (
     <>
@@ -28,7 +30,7 @@ function handleChange(inputIdentifier, newValue) {
           onChangeInput={handleChange} 
           userInput={userInput}
         />
-        <Results input={userInput}/>
+        {inputIsValid ? <Results input={userInput} /> : <p className="center">Please enter valid duration</p>}
       </main>
     </>
   );
