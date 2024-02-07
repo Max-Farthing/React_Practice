@@ -36,7 +36,9 @@ export default function App() {
                     duration={value.duration}
                     handle={handleChange}
                 />
-                <Results />
+                <Results 
+                    input={value}
+                />
             </main>
         </>
     );
