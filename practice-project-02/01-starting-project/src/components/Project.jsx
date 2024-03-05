@@ -1,12 +1,25 @@
-export default function Project({ closeMenu }) {
+import { forwardRef, useRef, useImperativeHandle } from "react";
+
+const Project = forwardRef(function Project({ closeMenu, add }, ref) {
+
+    const inputRefs = {
+        input1Ref: useRef(null),
+        input2Ref: useRef(null),
+        input3Ref: useRef(null)
+    };
+
+    useImperativeHandle(ref, () => ({
+        inputRefs
+    }));
+    
     return (
         <>
             <div>
                 <button onClick={() => closeMenu(false)} className="">Cancel</button>
-                <button className="bg-black text-white rounded-md">Save</button>
+                <button onClick={add} className="bg-black text-white rounded-md">Save</button>
                 <label>TITLE</label>
                 <input
-                    // onChange={} potentially where i use refs?
+                    ref={inputRefs.input1Ref}
                     className="border border-black rounded-md" 
                     type="text"
                 />
@@ -14,7 +27,7 @@ export default function Project({ closeMenu }) {
             <div>
                 <label>DESCRIPTION</label>
                 <input 
-                    // onChange={}
+                    ref={inputRefs.input2Ref}
                     className="border border-black rounded-md" 
                     type="text"
                 />
@@ -22,11 +35,13 @@ export default function Project({ closeMenu }) {
             <div>
                 <label>DUE DATE</label>
                 <input 
-                    // onChange={}
+                    ref={inputRefs.input3Ref}
                     className="border border-black rounded-md" 
                     type="date"
                 />
             </div>
         </>
     );
-}
+})
+
+export default Project;

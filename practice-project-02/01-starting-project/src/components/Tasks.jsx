@@ -1,4 +1,4 @@
-export default function Tasks() {
+export default function Tasks({ data }) {
     return (
         <div>
             <h1></h1>  {/* output project name */ }
