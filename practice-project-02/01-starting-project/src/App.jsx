@@ -6,11 +6,12 @@ import { useState, useRef } from "react";
 
 function App() {
   const projectRefs = useRef(null);
-  const [projects, setProjects] = useState([]); //will use to keep track of projects, maybe use refs?
-  const [menu, setMenu] = useState('noproject'); //will use for rendering project creation menu
+  const taskRef = useRef(null);
+  const [projects, setProjects] = useState([]);
+  const [menu, setMenu] = useState('noproject');
 
-  function menuToggle(value) {
-      setMenu(value);
+  function menuToggle(value) { //maybe if task is passed then send a value
+      setMenu(value);          // then maybe we can find obj in projects and show on task screen
   }
 
   function addProject() {
@@ -22,9 +23,16 @@ function App() {
       id: projects.length + 1, 
       title: inputRefs.input1Ref.current.value, 
       description: inputRefs.input2Ref.current.value, 
-      date: inputRefs.input3Ref.current.value
+      date: inputRefs.input3Ref.current.value,
+      tasks: []
     };
     setProjects([...projects, newItem]);
+  }
+
+  function addTask() {
+    const updateObj = projects.find(item => item['title'] === "");
+    updateObj[tasks].push(taskRef.current.value);
+    setProjects([...projects, updateObj]);
   }
 
   function deleteProject() {
@@ -37,7 +45,7 @@ function App() {
       <Sidebar data={projects} openMenu={menuToggle} />
       {menu === 'project' && <Project closeMenu={menuToggle} add={addProject} ref={projectRefs} />}
       {menu === 'noproject' && <NoProject openMenu={menuToggle}/>}
-      {menu === 'task' && <Tasks data={projects} />}
+      {menu === 'task' && <Tasks data={projects} addTask={addTask} ref={taskRef}/>}
     </>
   );
 }
