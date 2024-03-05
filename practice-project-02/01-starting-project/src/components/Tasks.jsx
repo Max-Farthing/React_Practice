@@ -1,12 +1,13 @@
 export default function Tasks({ data }) {
     return (
         <div>
-            <h1></h1>  {/* output project name */ }
-            <p></p> {/* output project date */ }
-            <p></p> {/* output project description */ }
+            <h1>{data.title}</h1>
+            <button>Delete</button>
+            <p>{data.date}</p>
+            <p>{data.description}</p>
             <hr />
             <h1>Tasks</h1>
-            <input type="text" />
+            <input type="text" className="border border-black rounded-md"/>
             <button>Add Task</button>
             <ul>
                 {/* map out tasks here */}

@@ -15,7 +15,7 @@ const Project = forwardRef(function Project({ closeMenu, add }, ref) {
     return (
         <>
             <div>
-                <button onClick={() => closeMenu(false)} className="">Cancel</button>
+                <button onClick={() => closeMenu('noproject')} className="">Cancel</button>
                 <button onClick={add} className="bg-black text-white rounded-md">Save</button>
                 <label>TITLE</label>
                 <input

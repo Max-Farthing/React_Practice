@@ -8,7 +8,7 @@ export default function NoProject({ openMenu }) {
             <p>Select a project or get started with a new one</p>
             <button 
                 className='bg-black text-white rounded-md'
-                onClick={() => openMenu(true)}
+                onClick={() => openMenu('project')}
             >
                 Create new project
             </button>

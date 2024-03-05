@@ -7,16 +7,10 @@ import { useState, useRef } from "react";
 function App() {
   const projectRefs = useRef(null);
   const [projects, setProjects] = useState([]); //will use to keep track of projects, maybe use refs?
-  const [menu, setMenu] = useState(false); //will use for rendering project creation menu
-  const[task, setTask] = useState(false);
+  const [menu, setMenu] = useState('noproject'); //will use for rendering project creation menu
 
-  function menuToggle(boolean) {
-      setMenu(boolean);
-  }
-
-  function taskToggle(boolean) {
-      setTask(boolean);
-      setMenu(false);
+  function menuToggle(value) {
+      setMenu(value);
   }
 
   function addProject() {
@@ -40,9 +34,10 @@ function App() {
   return (
     <>
       <h1 className="my-8 text-center text-5xl font-bold">Hello World</h1>
-      <Sidebar data={projects} openMenu={menuToggle} openTask={taskToggle}/>
-      {menu ? <Project closeMenu={menuToggle} add={addProject} ref={projectRefs} /> : <NoProject openMenu={menuToggle}/>}
-      {task && <Tasks data={projects} /> }
+      <Sidebar data={projects} openMenu={menuToggle} />
+      {menu === 'project' && <Project closeMenu={menuToggle} add={addProject} ref={projectRefs} />}
+      {menu === 'noproject' && <NoProject openMenu={menuToggle}/>}
+      {menu === 'task' && <Tasks data={projects} />}
     </>
   );
 }
