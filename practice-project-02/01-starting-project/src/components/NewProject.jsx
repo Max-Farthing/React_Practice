@@ -25,7 +25,6 @@ export default function NewProject({ onAdd, onCancel }) {
             description: entereddescription,
             dueDate: entereddueDate
         });
-        console.log(entereddueDate);
 
     }
 
