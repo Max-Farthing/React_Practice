@@ -8,9 +8,11 @@ import { useState, useRef } from "react";
 function App() {
     const [project, setProject] = useState('n');
     const [projectList, setProjectList] = useState([]);
+    const [selectedId, setSelectedId] = useState(undefined);
     const titleRef = useRef();
     const descRef = useRef();
     const dateRef = useRef();
+    const newTask = useRef();
 
     function handleSaveNewProject () {
         const newProject = {
@@ -30,6 +32,7 @@ function App() {
     }
 
     function handleSelectProject(id) {
+        setSelectedId(id);
         setProject('t');
     }
 
@@ -41,13 +44,35 @@ function App() {
         setProject('n');
     }
 
+    function handleSaveNewTask(id) {
+        const project = projectList.findIndex(obj => obj.id === id);
+        if(project === -1) {
+            return;
+        }
+        const updatedList = [...projectList];
+
+        updatedList[project].tasks.push(newTask.current.value);
+
+        newTask.current.value = '';
+
+        setProjectList(updatedList);
+    }
+
+    function handleDeleteTask(id) {
+        const updatedList = projectList.filter(project => project.id !== id);
+        setProjectList(updatedList);
+        console.log(updatedList);
+        console.log(id);
+        setProject('n');
+    }
+
     let view;
     if(project === 'n') {
         view = <NoProject addProject={handleNewProject} />;
     } else if(project === 'p') {
         view = <Project cancelProject={handleCancelProject} saveProject={handleSaveNewProject} ref={{ titleRef, descRef, dateRef }}/>
     } else if(project === 't') {
-        view = <Tasks />
+        view = <Tasks project={projectList[selectedId - 1]} handleAddTask={handleSaveNewTask} ref={newTask} handleDeleteTask={handleDeleteTask} />
     }
 
     return (
