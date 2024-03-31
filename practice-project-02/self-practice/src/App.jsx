@@ -19,6 +19,7 @@ function App() {
     const titleRef = useRef();
     const descRef = useRef();
     const dateRef = useRef();
+    const taskRef = useRef();
 
     function addProjectScreen() {
         setSelectedScreen('project');
@@ -50,6 +51,27 @@ function App() {
         setSelectedScreen('none');
     }
 
+    function addTask() {
+        const arrayCopy = [...projects];
+        const found = projects.findIndex((project) => project.id === selectedId);
+        arrayCopy[found].tasks.push(taskRef.current.value);
+        setProjects(arrayCopy);
+        taskRef.current.value = '';
+    }
+
+    function deleteProject() {
+        const newProjects = projects.filter((project) => project.id !== selectedId);
+        setProjects(newProjects);
+        setSelectedScreen('none');
+    }
+
+    function clearTask(id) {
+        const arrayCopy = [...projects];
+        const found = projects.findIndex((project) => project.id === selectedId);
+        arrayCopy[found].tasks.splice(id, 1);
+        setProjects(arrayCopy);
+    }
+
     let screen;
     if(selectedScreen === 'none') {
         screen = <NoProject projectScreen={addProjectScreen} />;
@@ -57,7 +79,7 @@ function App() {
         screen = <Project ref={{titleRef, descRef, dateRef}} handleSave={handleSaveProject} handleCancel={cancelProject}/>;
     } else if(selectedScreen === 'task') {
         const found = projects.findIndex((project) => project.id === selectedId);
-        screen = <Tasks project={projects[found]}/>
+        screen = <Tasks ref={taskRef} project={projects[found]} deleteProject={deleteProject} addTask={addTask} clearTask={clearTask}/>
     }
 
     return (
